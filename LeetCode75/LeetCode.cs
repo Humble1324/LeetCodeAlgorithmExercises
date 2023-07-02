@@ -125,12 +125,12 @@ namespace LeetCode
             return count == n;
         }
 
-        public static void Main(string[] args)
-        {
-            int[] candies = new int[] { 1,0,0,0,1,0,0 };
-            Console.WriteLine("Test Log");
-            var leet = new LeetCode75();
-            Console.WriteLine(leet.CanPlaceFlowers(candies, 3));
-        }
+        // public static void Main(string[] args)
+        // {
+        //     int[] candies = new int[] { 1,0,0,0,1,0,0 };
+        //     Console.WriteLine("Test Log");
+        //     var leet = new LeetCode75();
+        //     Console.WriteLine(leet.CanPlaceFlowers(candies, 3));
+        // }
     }
 }
