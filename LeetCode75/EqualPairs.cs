@@ -49,11 +49,11 @@ public partial class LeetCode75
         return sum;
     }
 
-    public static void Main()
-    {
-        Console.Write(EqualPairs(new int[][]
-        {
-            new int[] { 11,1}, new int[] {1,11}
-        }));
-    }
+    // public static void Main()
+    // {
+    //     Console.Write(EqualPairs(new int[][]
+    //     {
+    //         new int[] { 11,1}, new int[] {1,11}
+    //     }));
+    // }
 }
