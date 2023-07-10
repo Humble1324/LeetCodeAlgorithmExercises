@@ -94,8 +94,8 @@ public class RecentCounter
         
     }
 
-    public static void Main()
-    {
-        Console.Write(FindPoisonedDuration(new int[] { 2, 4, 6, 8, 10 }, 2));
-    }
+    // public static void Main()
+    // {
+    //     Console.Write(FindPoisonedDuration(new int[] { 2, 4, 6, 8, 10 }, 2));
+    // }
 }
