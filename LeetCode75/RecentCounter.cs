@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +7,7 @@ namespace LeetCode;
 
 public class RecentCounter
 {
-    private Queue<int> tQueue = new();
+    private readonly Queue<int> tQueue = new();
 
     public RecentCounter()
     {
@@ -18,21 +17,18 @@ public class RecentCounter
     public int Ping(int t)
     {
         tQueue.Enqueue(t);
-        while (tQueue.Count > 0 && tQueue.Peek() > t - 3000)
-        {
-            tQueue.Dequeue();
-        }
+        while (tQueue.Count > 0 && tQueue.Peek() > t - 3000) tQueue.Dequeue();
 
         return tQueue.Count;
     }
 
     public static int FindPoisonedDuration(int[] timeSeries, int duration)
     {
-        int[] time = new int[timeSeries.Max() + duration];
-        int lens = timeSeries.Length;
-        for (int i = 0; i < lens; i++)
+        var time = new int[timeSeries.Max() + duration];
+        var lens = timeSeries.Length;
+        for (var i = 0; i < lens; i++)
         {
-            int temp = duration;
+            var temp = duration;
             while (temp > 0)
             {
                 time[timeSeries[i] + temp - 1] = 1;
@@ -40,58 +36,56 @@ public class RecentCounter
             }
         }
 
-        int sum = 0;
+        var sum = 0;
         foreach (var bigtime in time)
-        {
-            if (bigtime == 1) sum++;
-        }
+            if (bigtime == 1)
+                sum++;
 
         return sum;
     }
-    public string PredictPartyVictory(string senate) {
-        int lens = senate.Length;
-        StringBuilder sb = new StringBuilder(senate,lens);
-        if(lens<2){
-            return sb[0]=='D'? "Dire":"Radiant";
-        }
-        int flag = 0;
-        bool D = false,R=false;
-        while(D&&R){
+
+    public string PredictPartyVictory(string senate)
+    {
+        var lens = senate.Length;
+        var sb = new StringBuilder(senate, lens);
+        if (lens < 2) return sb[0] == 'D' ? "Dire" : "Radiant";
+        var flag = 0;
+        bool D = false, R = false;
+        while (D && R)
+        {
             R = false;
             D = false;
-            for(int i =0;i<lens;i++){
-                if(sb[i]=='D')
+            for (var i = 0; i < lens; i++)
+            {
+                if (sb[i] == 'D')
                 {
                     if (flag < 0) sb[i] = ' ';
                     else R = true;
                     flag++;
-                }    
-                if(sb[i]=='R'){
-                    if(flag<0)sb[i]=' ';
+                }
+
+                if (sb[i] == 'R')
+                {
+                    if (flag < 0) sb[i] = ' ';
                     else D = true;
                     flag--;
                 }
-                
             }
-
         }
-        return R ==true? "Radiant":"Dire";
+
+        return R ? "Radiant" : "Dire";
     }
+
     public void Merge(int[] nums1, int m, int[] nums2, int n)
     {
-        int temp = 0;
-        for (int i = m; i < nums1.Length; i++)
-        {
-            nums1[i] = nums2[temp++];
-        }
+        var temp = 0;
+        for (var i = m; i < nums1.Length; i++) nums1[i] = nums2[temp++];
 
         Array.Sort(nums1);
-        return;
     }
 
     public void MergeII(int[] nums1, int m, int[] nums2, int n)
     {
-        
     }
 
     // public static void Main()

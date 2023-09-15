@@ -9,26 +9,22 @@ public partial class DailyCode
         Stack<int> AlterStack = new();
         while (n > 0)
         {
-            AlterStack.Push(n%10);
+            AlterStack.Push(n % 10);
             n /= 10;
         }
 
-        int sum = 0;
-        bool isPositive = true;
+        var sum = 0;
+        var isPositive = true;
         while (AlterStack.Count > 0)
         {
             if (isPositive)
-            {
                 sum += AlterStack.Pop();
-            }
             else
-            {
-                sum-=AlterStack.Pop();
-            }
-            
+                sum -= AlterStack.Pop();
+
             isPositive = !isPositive;
-            
         }
+
         return sum;
     }
 }

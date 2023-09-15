@@ -1,29 +1,17 @@
 ﻿using System.Collections.Generic;
-using System;
 
-
-    
-    public partial class DailyCode
+public class DailyCode
+{
+    public int[] TwoSum(int[] nums, int target)
     {
-        public int[] TwoSum(int[] nums, int target)
-        {
-            Dictionary<int, int> hashSum = new Dictionary<int, int>();
-            int lens = nums.Length;
-            for (int i = 0; i < lens; i++)
-            {
-                if (!hashSum.ContainsKey(nums[i]))
-                {
-                    hashSum.TryAdd(target - nums[i], i);
-                }
-                else
-                {
-                    return new int[] { hashSum[nums[i]], i };
-                }
-            }
+        var hashSum = new Dictionary<int, int>();
+        var lens = nums.Length;
+        for (var i = 0; i < lens; i++)
+            if (!hashSum.ContainsKey(nums[i]))
+                hashSum.TryAdd(target - nums[i], i);
+            else
+                return new[] { hashSum[nums[i]], i };
 
-            return null;
-        }
-
-
+        return null;
     }
-    
+}

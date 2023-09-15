@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-
-namespace LeetCode.DailyCode;
+﻿namespace LeetCode.DailyCode;
 
 public partial class DailyCode
 {
@@ -13,39 +9,30 @@ public partial class DailyCode
     public bool CheckValidGrid(int[][] grid) //grid是nxn
     {
         if (grid[0][0] != 0) return false;
-        int count = grid.Length * grid.Length;
-        int n = grid.Length;
-        int[][] indices = new int[n * n][];
-        for (int i = 0; i < n * n; i++)
+        var count = grid.Length * grid.Length;
+        var n = grid.Length;
+        var indices = new int[n * n][];
+        for (var i = 0; i < n * n; i++) indices[i] = new int[2];
+
+        for (var i = 0; i < n; i++)
+        for (var j = 0; j < n; j++)
         {
-            indices[i] = new int[2];
+            indices[grid[i][j]][0] = i;
+            indices[grid[i][j]][1] = j;
         }
 
-        for (int i = 0; i < n; i++)
-        {
-            for (int j = 0; j < n; j++)
-            {
-                indices[grid[i][j]][0] = i;
-                indices[grid[i][j]][1] = j;
-            }
-        }
-
-        int index = 1;
+        var index = 1;
         while (index < count)
         {
             if ((indices[index][0] - indices[index - 1][0]) * (indices[index][0] - indices[index - 1][0]) +
                 (indices[index][1] - indices[index - 1][1]) * (indices[index][1] - indices[index - 1][1]) != 5)
             {
-                {
-                    return false;
-                }
+                return false;
             }
 
             index++;
-
         }
 
         return true;
     }
-    
 }
