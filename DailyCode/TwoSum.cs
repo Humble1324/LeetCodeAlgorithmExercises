@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public class DailyCode
+public partial class DailyCode
 {
     public int[] TwoSum(int[] nums, int target)
     {

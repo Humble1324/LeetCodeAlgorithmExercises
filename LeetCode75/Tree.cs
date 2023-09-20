@@ -82,34 +82,106 @@ public partial class LeetCode75
     {
         if (root == null)
             return new[] { -1, -1 };
-        int lMax = dfs(root.left)[1]+1;
-        int rMax = dfs(root.right)[0]+1;
+        int lMax = dfs(root.left)[1] + 1;
+        int rMax = dfs(root.right)[0] + 1;
         ans = Math.Max(ans, Math.Max(lMax, rMax));
-        return new int[]{lMax,rMax};
+        return new int[] { lMax, rMax };
     }
+
     public TreeNode LowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q)
     {
-        if (root == null || root == p || root == q)return root;//当前节点为空或当前节点就是p、q就返回当前节点
-        TreeNode left = LowestCommonAncestor(root.left, p, q);//不空则往下遍历，带入左右子树
+        if (root == null || root == p || root == q) return root; //当前节点为空或当前节点就是p、q就返回当前节点
+        TreeNode left = LowestCommonAncestor(root.left, p, q); //不空则往下遍历，带入左右子树
         TreeNode right = LowestCommonAncestor(root.right, p, q);
-        if (left != null && right != null)return root;
+        if (left != null && right != null) return root;
         //如果同时存在左右子节点，即左右节点包含pq，则返回当前节点，证明当前节点就是最近祖先
 
         return left != null ? left : right;
-
     }
-}
 
-public class TreeNode
-{
-    public TreeNode left;
-    public TreeNode right;
-    public int val;
-
-    public TreeNode(int val = 0, TreeNode left = null, TreeNode right = null)
+    public IList<int> RightSideView(TreeNode root)
     {
-        this.val = val;
-        this.left = left;
-        this.right = right;
+        List<int> res = new List<int>();
+        if (root == null) return res;
+        Queue<TreeNode> q = new Queue<TreeNode>();
+        q.Enqueue(root);
+        while (q.Count != 0)
+        {
+            int n = q.Count;
+            for (int i = 0; i < n; i++)
+            {
+                var node = q.Dequeue();
+                if (node.left != null) q.Enqueue(node.left);
+                if (node.right != null) q.Enqueue(node.right);
+                if (i == n - 1) res.Add(node.val);
+            }
+        }
+
+        return res;
+    }
+
+    public int MaxLevelSum(TreeNode root)
+    {
+        Queue<TreeNode> q = new Queue<TreeNode>();
+        List<int> maxLevel = new List<int>();
+        q.Enqueue(root);
+        while (q.Count != 0)
+        {
+            int n = q.Count;
+            int temp = 0;
+            for (int i = 0; i < n; i++)
+            {
+                var node = q.Dequeue();
+                if (node.left != null) q.Enqueue(node.left);
+                if (node.right != null) q.Enqueue(node.right);
+                temp += node.val;
+            }
+
+            maxLevel.Add(temp);
+        }
+
+        int max = Int32.MinValue, level = 0;
+        for (int i = 0; i < maxLevel.Count; i++)
+        {
+            if (maxLevel[i] > max)
+            {
+                max = maxLevel[i];
+                level = i;
+            }
+        }
+
+        return level + 1;
+    }
+
+    public TreeNode SearchBST(TreeNode root, int val)
+    {
+        while (true)
+        {
+            //二叉搜索树满足如下性质：
+            //左子树所有节点的元素值均小于根的元素值；
+            //右子树所有节点的元素值均大于根的元素值。
+            if (root == null || root.val == val) return root;
+            if (root.val > val)
+            {
+                root = root.left;
+                continue;
+            }
+
+            root = root.right;
+        }
+    }
+
+    public class TreeNode
+    {
+        public int val;
+        public TreeNode left;
+        public TreeNode right;
+
+        public TreeNode(int val = 0, TreeNode left = null, TreeNode right = null)
+        {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
     }
 }
