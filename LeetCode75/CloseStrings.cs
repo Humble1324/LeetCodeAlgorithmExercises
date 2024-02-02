@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace LeetCode;
 
@@ -27,17 +28,16 @@ public partial class LeetCode75
             if (dic2.ContainsKey(text)) dic2[text]++;
             else dic2.Add(text, 0);
 
-        foreach (var dic1key in dic1)
-            if (!dic2.ContainsKey(dic1key.Key))
-                return false;
-        var word1List = new List<int>();
-        var word2List = new List<int>();
-        foreach (var dic1key in dic1) word1List.Add(dic1key.Value);
-        foreach (var dic1key in dic2) word2List.Add(dic1key.Value);
+        if (dic1.Any(dic1key => !dic2.ContainsKey(dic1key.Key)))
+        {
+            return false;
+        }
+        var word1List = dic1.Select(dic1Key => dic1Key.Value).ToList();
+        var word2List = dic2.Select(dic1Key => dic1Key.Value).ToList();
         word1List.Sort();
         word2List.Sort();
         if (word1List.Count != word2List.Count) return false;
-        for (var i = 0; i < word1List.Count; i++)
+        for (var i = word1List.Count - 1; i >= 0; i--)
             if (word1List[i] != word2List[i])
                 return false;
         return true;

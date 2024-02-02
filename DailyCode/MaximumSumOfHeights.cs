@@ -80,10 +80,10 @@ public partial class DailyCode
         return max;
     }
 
-    public static void Main()
-    {
-        List<int> test = new List<int>() { 1, 5, 2, 5, 6, 4, 6, 3, 4, 5 };
-
-        Console.WriteLine(MaximumSumOfHeights(test));
-    }
+    // public static void Main()
+    // {
+    //     List<int> test = new List<int>() { 1, 5, 2, 5, 6, 4, 6, 3, 4, 5 };
+    //
+    //     Console.WriteLine(MaximumSumOfHeights(test));
+    // }
 }
