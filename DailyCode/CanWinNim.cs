@@ -1,9 +1,6 @@
 ﻿namespace LeetCode.DailyCode;
 
-public partial class DailyCode
+public class CanWinNim
 {
-    public bool CanWinNim(int n)
-    {
-        return n%4==0;
-    }
+    
 }
