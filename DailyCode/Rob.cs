@@ -19,12 +19,12 @@ public partial class DailyCode
      *     }
      * }
      */
-    Dictionary<TreeNode, int> f = new(); //f为选择当前节点的权重
+    Dictionary<TreeNode?, int> f = new(); //f为选择当前节点的权重
 
-    Dictionary<TreeNode, int> g = new(); //g为未选择当前节点情况的权重
+    Dictionary<TreeNode?, int> g = new(); //g为未选择当前节点情况的权重
 
 
-    public int Rob(TreeNode root)
+    public int Rob(TreeNode? root)
     {
         //局部最优与当前结果做对比，取最优
         //每个节点遍历写出选当前节点的权重和未选中当前节点的权重，取最高
@@ -46,7 +46,7 @@ public partial class DailyCode
             Math.Max(GetOrDefault(f, root.right, 0), GetOrDefault(g, root.right, 0)));
     }
 
-    public int GetOrDefault(Dictionary<TreeNode, int> dic, TreeNode node, int defaultValue)
+    public int GetOrDefault(Dictionary<TreeNode?, int> dic, TreeNode? node, int defaultValue)
     {
         if (node == null)
             return defaultValue;
@@ -57,10 +57,10 @@ public partial class DailyCode
 public class TreeNode
 {
     public int val;
-    public TreeNode left;
-    public TreeNode right;
+    public TreeNode? left;
+    public TreeNode? right;
 
-    public TreeNode(int val = 0, TreeNode left = null, TreeNode right = null)
+    public TreeNode(int val = 0, TreeNode? left = null, TreeNode? right = null)
     {
         this.val = val;
         this.left = left;

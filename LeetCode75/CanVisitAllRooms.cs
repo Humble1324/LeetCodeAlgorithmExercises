@@ -71,18 +71,18 @@ public partial class LeetCode75
         int lens = rooms.Count;
         num = 0;
         isVisited = new bool[lens];
-        dfs(rooms, 0);
+        roomDfs(rooms, 0);
         return num == lens;
     }
 
-    public void dfs(IList<IList<int>> rooms, int x)
+    public void roomDfs(IList<IList<int>> rooms, int x)
     {
         isVisited[x] = true;
         num++;
         for (int i = 0; i < rooms[x].Count; i++)
         {
             if (!isVisited[rooms[x][i]])
-                dfs(rooms, rooms[x][i]);
+                roomDfs(rooms, rooms[x][i]);
         }
     }
 
