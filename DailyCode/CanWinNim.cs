@@ -1,6 +1,6 @@
 ﻿namespace LeetCode.DailyCode;
 
-public class CanWinNim
+public partial class DailyCode
 {
-    
+ 
 }

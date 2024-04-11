@@ -47,33 +47,37 @@ public class RecentCounter
     public string PredictPartyVictory(string senate)
     {
         var lens = senate.Length;
-        var sb = new StringBuilder(senate, lens);
-        if (lens < 2) return sb[0] == 'D' ? "Dire" : "Radiant";
-        var flag = 0;
-        bool D = false, R = false;
-        while (D && R)
+        if (lens < 2) return senate[0] == 'D' ? "Dire" : "Radiant";
+        var D = new Queue<int>();
+        var R = new Queue<int>();
+        for (var i = 0; i < lens; i++)
         {
-            R = false;
-            D = false;
-            for (var i = 0; i < lens; i++)
+            if (senate[i] == 'D')
             {
-                if (sb[i] == 'D')
-                {
-                    if (flag < 0) sb[i] = ' ';
-                    else R = true;
-                    flag++;
-                }
-
-                if (sb[i] == 'R')
-                {
-                    if (flag < 0) sb[i] = ' ';
-                    else D = true;
-                    flag--;
-                }
+                D.Enqueue(i);
+            }
+            else
+            {
+                R.Enqueue(i);
             }
         }
 
-        return R ? "Radiant" : "Dire";
+        while (D.Count > 0 && R.Count > 0)
+        {
+            var r = R.Dequeue();
+            var d = D.Dequeue();
+            if (r < d)
+            {
+                R.Enqueue(r+lens);
+            }
+            else
+            {
+                D.Enqueue(d+lens);
+            }
+
+        }
+
+        return D.Count > 0 ? "Dire" : "Radiant";
     }
 
     public void Merge(int[] nums1, int m, int[] nums2, int n)
