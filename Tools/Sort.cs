@@ -1,20 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace LeetCode.Solution;
+namespace LeetCode.Tools;
 
 public class Sort
 {
-    //todo:补全排序
-
-    public void HeapSort(int[] nums)
-    {
-    }
-
     public void MergingSort(int[] nums)
     {
     }
 
+    public int BinarySearch(int[] arr, int low, int high, long target)
+    {
+        int res = high + 1;
+        while (low <= high)
+        {
+            int mid = low + (high - low) / 2;
+            if (arr[mid] > target)
+            {
+                res = mid;
+                high = mid - 1;
+            }
+            else
+            {
+                low = mid + 1;
+            }
+        }
+
+        return res;
+    }
 
     /// <summary>
     /// 快速排序（双指针递归）
@@ -28,16 +40,12 @@ public class Sort
         //循环这个操作
         if (start > end) return;
         var random = new Random();
-
         //int pivotIndex=start; 之前取最小值会超时
         var pivotIndex = random.Next(start, end);
-
         //取end因为random会取不到end，所以end作为temp游标
         (nums[pivotIndex], nums[start]) = (nums[start], nums[pivotIndex]);
 
         var temp = nums[start];
-
-
         var left = start;
         var right = end;
         while (left < right)
@@ -84,13 +92,74 @@ public class Sort
         }
     }
 
-    static void Main()
+    public static void HeapSort(int[] nums)
     {
-        int[] nums = new[] { 5, 1, 1, 2, 0, 0 };
-        DoublePointerQuickSort(nums, 0, nums.Length - 1);
-        for (var i = 0; i < nums.Length; i++)
+        int lens = nums.Length - 1;
+
+        BuildMaxHeap(nums, lens);
+
+        for (int i = lens; i >= 1; i--)
         {
-            Console.Write($"nums[i]{nums[i]} ");
+            // Move current root to end
+            (nums[0], nums[i]) = (nums[i], nums[0]);
+            lens -= 1;
+            // call max heapify on the reduced heap
+            MaxHeapify(nums, 0, lens);
         }
     }
+
+    public static void BuildMaxHeap(int[] nums, int lens)
+    {
+        for (int i = lens / 2; i >= 0; --i)
+        {
+            MaxHeapify(nums, i, lens);
+        }
+    }
+
+    public static void MaxHeapify(int[] nums, int i, int lens)
+    {
+        for (; (i << 1) + 1 <= lens;)
+        {
+            int largest;
+            int left = (i << 1) + 1;
+            int right = (i << 1) + 2;
+            //当前填入位置 以及初始化
+
+            //如果左侧大于根节点
+            if (left <= lens && nums[left] > nums[i])
+            {
+                largest = left;
+            }
+            else
+            {
+                largest = i;
+            }
+
+            //如果右侧侧大于根节点
+            if (right <= lens && nums[right] > nums[largest])
+            {
+                largest = right;
+            }
+
+            if (largest != i)
+            {
+                (nums[largest], nums[i]) = (nums[i], nums[largest]);
+                i = largest;
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+
+    // static void Main()
+    // {
+    //     int[] nums = new[] { 5, 1, 1, 2, 0, 0 };
+    //     HeapSort(nums);
+    //     for (var i = 0; i < nums.Length; i++)
+    //     {
+    //         Console.Write($"nums[i]{nums[i]} ");
+    //     }
+    // }
 }
