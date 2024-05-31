@@ -5,6 +5,58 @@ namespace LeetCode.Solution;
 
 public class DP
 {
+    //自上而下
+    public int CombinationSum4(int[] nums, int target)
+    {
+        int[] dp = new int[target + 1];
+        
+        dp[0] = 1;
+        for (int i = 1; i <= target; i++)
+        {
+            foreach (var num in nums)
+            {
+                if (num <= i)
+                {
+                    dp[i] += dp[i - num];
+                }
+            }
+        }
+        return dp[target];
+    }
+    //自下而上
+    public int CombinationSum4II(int[] nums, int target)
+    {
+        int[] memo = new int[target + 1];
+        Array.Fill(memo,-1);
+        return CombinationDfs(target,nums,memo);
+    }
+
+    public int CombinationDfs(int i,int[] nums,int[] memo)
+    {
+        //遍历到最底
+        if (i==0)
+        {
+            return 1;
+        }
+        
+        //如果当前情况已知，就直接返回
+        if (memo[i] != -1)
+        {
+            return memo[i];
+        }
+        
+        //当前结果没出现过，遍历并记录
+        int res = 0;
+        for (var i1 = 0; i1 < nums.Length; i1++)
+        {
+            if (nums[i1] <= i)
+            {
+                res += CombinationDfs(i - i1, nums, memo);
+            }
+        }
+        return memo[i]=res;
+    }
+
     public static int DeleteAndEarn(int[] nums)
     {
         Dictionary<int, int> Dic = new Dictionary<int, int>();

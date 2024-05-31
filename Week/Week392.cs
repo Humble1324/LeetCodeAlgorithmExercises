@@ -3,7 +3,7 @@ using System.Text;
 
 namespace LeetCode.Solution;
 
-public class Week
+public class Week392
 {
     public int LongestMonotonicSubarray(int[] nums)
     {
