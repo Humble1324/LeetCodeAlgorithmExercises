@@ -49,9 +49,10 @@ public class Week395
         {
             return nums2[1] - nums1[0];
         }
-        if(Temp.Count == 0)
 
+        if (Temp.Count == 0) ;
 
+        return 0;
     }
 
     public long MinEnd(int n, int x)
@@ -63,6 +64,7 @@ public class Week395
         //     long t = pre + 1;
         //     while(t&x==)
         // }
+        return 0;
     }
 
     public long BitWiseAnd(int a, int b)
