@@ -46,10 +46,10 @@ public partial class LeetCode75
         }
     }
 
-     public static void Main()
-     {
-         Console.Write(LetterCombinations("23"));
-     }
+     // public static void Main()
+     // {
+     //     Console.Write(LetterCombinations("23"));
+     // }
 
     //存放符合条件的单一结果
     private List<IList<int>> _result = new List<IList<int>>();
