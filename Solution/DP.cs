@@ -9,7 +9,7 @@ public class DP
     public int CombinationSum4(int[] nums, int target)
     {
         int[] dp = new int[target + 1];
-        
+
         dp[0] = 1;
         for (int i = 1; i <= target; i++)
         {
@@ -21,30 +21,32 @@ public class DP
                 }
             }
         }
+
         return dp[target];
     }
+
     //自下而上
     public int CombinationSum4II(int[] nums, int target)
     {
         int[] memo = new int[target + 1];
-        Array.Fill(memo,-1);
-        return CombinationDfs(target,nums,memo);
+        Array.Fill(memo, -1);
+        return CombinationDfs(target, nums, memo);
     }
 
-    public int CombinationDfs(int i,int[] nums,int[] memo)
+    public int CombinationDfs(int i, int[] nums, int[] memo)
     {
         //遍历到最底
-        if (i==0)
+        if (i == 0)
         {
             return 1;
         }
-        
+
         //如果当前情况已知，就直接返回
         if (memo[i] != -1)
         {
             return memo[i];
         }
-        
+
         //当前结果没出现过，遍历并记录
         int res = 0;
         for (var i1 = 0; i1 < nums.Length; i1++)
@@ -54,43 +56,42 @@ public class DP
                 res += CombinationDfs(i - i1, nums, memo);
             }
         }
-        return memo[i]=res;
+
+        return memo[i] = res;
     }
 
     public static int DeleteAndEarn(int[] nums)
     {
+        Array.Sort(nums);
         Dictionary<int, int> Dic = new Dictionary<int, int>();
-        foreach (var num in nums)
+        Dic.Add(nums[0], 1);
+        List<int> arr = new();
+        for (int i = 1; i < nums.Length; i++)
         {
-            if (Dic.ContainsKey(num))
-                Dic[num] += num;
+            Dic.TryAdd(nums[i], 0);
+            Dic[nums[i]]++;
+            if (Dic[nums[i]] == 1)
+            {
+                arr.Add(nums[i]);
+            }
+        }
+
+        int[] dp = new int[arr.Count + 1];
+        dp[1] = arr[0] * Dic[arr[0]];
+        for (int i = 2; i <= arr.Count; i++)
+        {
+            int cur = arr[i - 1];
+            if (cur == arr[i - 2] + 1)
+            {
+                dp[i] = Math.Max(dp[i - 1], dp[i - 2] + cur * Dic[cur]);
+            }
             else
             {
-                Dic.Add(num, num);
+                dp[i] = dp[i - 1] + cur * Dic[cur];
             }
         }
 
-        int dp = 0;
-        int downDown = 0;
-        int down = 0;
-
-        for (int i = 1; i < 10001; i++)
-        {
-            if (Dic.TryGetValue(i, out var value))
-            {
-                down = value;
-                break;
-            }
-        }
-
-        for (var i = 2; i <= Dic.Count; i++)
-        {
-            dp = Math.Max(down, downDown + Dic[i - 1]);
-            downDown = down;
-            down = dp;
-        }
-
-        return down;
+        return dp[arr.Count];
     }
 
     public int Rob(int[] nums)
