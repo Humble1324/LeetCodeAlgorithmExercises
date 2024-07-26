@@ -111,7 +111,7 @@ public class Y202407
             indexFR++;
         }
 
-        if (indexFR < lens - 1&& sortNum[indexFR] == '5')
+        if (indexFR < lens - 1 && sortNum[indexFR] == '5')
         {
             indexFL = indexFR + 1;
             while (indexFL < lens - 1 && sortNum[indexFL] != '2' && sortNum[indexFL] != '7')
@@ -125,15 +125,14 @@ public class Y202407
             }
         }
 
-        
-        
+
         int Z = int.MaxValue;
         while (indexZR < lens - 2 && sortNum[indexZR] != '0')
         {
             indexZR++;
         }
 
-        if (indexZR < lens - 1&& sortNum[indexZR] == '0')
+        if (indexZR < lens - 1 && sortNum[indexZR] == '0')
         {
             indexZL = indexZR + 1;
             while (indexZL < lens - 1 && sortNum[indexZL] != '5' && sortNum[indexZL] != '0')
@@ -143,9 +142,9 @@ public class Y202407
 
             if (sortNum[indexZL] == '5' || sortNum[indexZL] == '0')
             {
-                    Z = Math.Min(Math.Abs(indexZL - indexZR) + indexZR - 1, Z);
+                Z = Math.Min(Math.Abs(indexZL - indexZR) + indexZR - 1, Z);
             }
-            else if(sortNum[indexZR]=='0')
+            else if (sortNum[indexZR] == '0')
             {
                 Z = lens - 1;
             }
@@ -165,6 +164,20 @@ public class Y202407
         return count;
     }
 
+    public int FindValueOfPartition(int[] nums)
+    {
+        int lens = nums.Length;
+        var sortedNums = new int[lens];
+        sortedNums = nums;
+        Array.Sort(sortedNums);
+        int left = 0, right = 1;
+        int ans = int.MaxValue;
+        while (left < right && right < lens)
+        {
+            ans = Math.Min(ans,(sortedNums[right++]-sortedNums[left++]));
+        }
+        return ans;
+    }
     // public static void Main()
     // {
     //     MinimumOperations("20");
