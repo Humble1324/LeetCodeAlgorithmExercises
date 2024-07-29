@@ -174,12 +174,52 @@ public class Y202407
         int ans = int.MaxValue;
         while (left < right && right < lens)
         {
-            ans = Math.Min(ans,(sortedNums[right++]-sortedNums[left++]));
+            ans = Math.Min(ans, (sortedNums[right++] - sortedNums[left++]));
         }
+
         return ans;
     }
-    // public static void Main()
-    // {
-    //     MinimumOperations("20");
-    // }
+
+    public static int CalPoints(string[] operations)
+    {
+        int ans = 0;
+        Stack<int> ops = new();
+        int index = 0;
+        foreach (var operation in operations)
+        {
+            switch (operation)
+            {
+                case "C":
+                    ops.Pop();
+                    index -= 2;
+                    break;
+                case "D":
+                    ops.Push(ops.Peek() * 2);
+                    break;
+                case "+":
+                    var t = ops.Pop();
+                    var tt = t + ops.Peek();
+                    ops.Push(t);
+                    ops.Push(tt);
+                    break;
+                default:
+                    var c = int.Parse(operation);
+                    ops.Push(c);
+                    break;
+            }
+            index++;
+        }
+
+        foreach (var op in ops)
+        {
+            ans += op;
+        }
+
+        return ans;
+    }
+
+    public static void Main()
+    {
+        CalPoints(new string[] { "5", "2", "C", "D", "+" });
+    }
 }
