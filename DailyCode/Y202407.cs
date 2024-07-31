@@ -207,6 +207,7 @@ public class Y202407
                     ops.Push(c);
                     break;
             }
+
             index++;
         }
 
@@ -218,8 +219,59 @@ public class Y202407
         return ans;
     }
 
-    public static void Main()
+    public IList<int> GetGoodIndices(int[][] variables, int target)
     {
-        CalPoints(new string[] { "5", "2", "C", "D", "+" });
+        int lens = variables.Length;
+        List<int> ans = new List<int>();
+        for (var i = 0; i < lens; i++)
+        {
+            var t = variables[i];
+            if (pow(pow(t[0], t[1], 10), t[2], t[3]) == target)
+            {
+                ans.Add(i);
+            }
+        }
+
+        return ans;
     }
+
+    public int pow(int x, int n, int mod)
+    {
+        int res = 1;
+        while (n > 0)
+        {
+            if (n % 2 > 0)
+            {
+                res *= x % mod;
+            }
+
+            x = x * x % mod;
+            n /= 2;
+        }
+
+        return res;
+    }
+
+    public static int MinRectanglesToCoverPoints(int[][] points, int w)
+    {
+        int ans = 0;
+        //按照x坐标排序,再根据w宽度进行分组,在w内的为一个长方形,超出就加一个
+        Array.Sort(points, (a, b) => a[0].CompareTo(b[0]));
+        int lens = points.Length;
+        for (var i = 0; i < lens;)
+        {
+            int index = i;
+            int temp = points[index][0];
+            while (index < lens && temp == points[index][0])index++;//无视一列的
+            while (index < lens && points[index][0] - temp <= w) index++;
+            ans++;
+            i = index;
+        }
+
+        return ans;
+    }
+     // public static void Main()
+     // {
+     //     MinRectanglesToCoverPoints(new int[][] { new int[] { 2,1},new int[]{1,0},new int[]{1,4},new int[]{1,8},new int[]{3,5},new int[]{4,6}}, 1);
+     // }
 }
