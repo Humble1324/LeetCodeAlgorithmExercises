@@ -4,16 +4,55 @@ namespace LeetCode.Tools;
 
 public class Sort
 {
-    public void MergingSort(int[] nums)
+    public void QuickSort(int[] arr, int left, int right)
     {
+        if (left >= right) return;
+        var ram = new Random();
+        int t = ram.Next(left, right);
+
+        (arr[left], arr[t]) = (arr[t], arr[left]);
+
+        int temp = arr[left];
+        int l = left;
+        int r = right;
+        while (l < r)
+        {
+            while (l < r && arr[r] >= temp)
+            {
+                r--;
+            }
+
+            while (l < r && arr[l] <= temp)
+            {
+                l++;
+            }
+
+
+            if (l > r) break;
+            (arr[l], arr[r]) = (arr[r], arr[l]);
+        }
+
+        //l==r
+        (arr[left], arr[l]) = (arr[l], arr[left]);
+        QuickSort(arr, left, l - 1);
+        QuickSort(arr, r + 1, right);
     }
 
+
+    /// <summary>
+    /// 有序使用二分
+    /// </summary>
+    /// <param name="arr"></param>
+    /// <param name="low"></param>
+    /// <param name="high"></param>
+    /// <param name="target"></param>
+    /// <returns></returns>
     public int BinarySearch(int[] arr, int low, int high, long target)
     {
         int res = high + 1;
         while (low <= high)
         {
-            int mid = low + (high - low) / 2;
+            int mid = low + (high - low) >> 1;
             if (arr[mid] > target)
             {
                 res = mid;
@@ -44,20 +83,28 @@ public class Sort
         var pivotIndex = random.Next(start, end);
         //取end因为random会取不到end，所以end作为temp游标
         (nums[pivotIndex], nums[start]) = (nums[start], nums[pivotIndex]);
-
+        //值
         var temp = nums[start];
+        //两个下标
         var left = start;
         var right = end;
+
+        //while执行完当前temp左都是小，右都是大
         while (left < right)
-            //while执行完当前temp左都是小，右都是大
         {
             //先执行右侧因为左侧left的数据已经存在temp内了，可以将右侧小于temp的值丢到左侧判断
 
-            //从右找一个大于temp的值
-            while (left < right && nums[right] >= temp) right--;
+            //从右找第一个大于temp的值
+            while (left < right && nums[right] >= temp)
+            {
+                right--;
+            }
 
-            //从左找一个小于temp的值
-            while (left < right && nums[left] <= temp) left++;
+            //从左找第一个小于temp的值
+            while (left < right && nums[left] <= temp)
+            {
+                left++;
+            }
 
             if (left >= right) break;
             //交换左大右小的值
@@ -106,6 +153,46 @@ public class Sort
             // call max heapify on the reduced heap
             MaxHeapify(nums, 0, lens);
         }
+    }
+
+    public void  MergeSort(int[] nums, int left, int right)
+    {
+        if (left > right) return;
+        var mid = left + (right - left) >>> 1;
+        MergeSort(nums, left, mid);
+        MergeSort(nums, mid + 1, right);
+        // 如果数组的这个子区间本身有序，无需合并
+        MergeOfTwoSortedArray(nums, left, mid, right);
+
+    }
+
+    public void MergeOfTwoSortedArray(int[] nums, int left, int mid, int right)
+    {
+        int lens = right - left + 1;
+        int[] tempAns = new int[lens];
+        int i = left, j = mid + 1, k = 0;
+        while (i <= mid && j <= right)
+        {
+            if (nums[i] >= nums[j])
+            {
+                tempAns[k++] = nums[j++];
+            }
+            else
+            {
+                tempAns[k++] = nums[i++];
+            }
+        }
+
+        while (i <= mid)
+        {
+            tempAns[k++] = nums[i++];
+        }
+
+        while (j <= right)
+        {
+            tempAns[k++] = nums[j++];
+        }
+        Array.Copy(tempAns,0,nums,left,lens);
     }
 
     public static void BuildMaxHeap(int[] nums, int lens)
