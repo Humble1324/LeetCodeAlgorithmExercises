@@ -10,49 +10,46 @@ public class Week395
     {
         Array.Sort(nums1);
         Array.Sort(nums2);
-        return nums2[0] - nums1[0];
+        return 0;
     }
 
-    public int MinimumAddedInteger(int[] nums1, int[] nums2)
+    public static int MinimumAddedInteger(int[] nums1, int[] nums2)
     {
         Array.Sort(nums1);
         Array.Sort(nums2);
-        List<int> tNums2 = new List<int>();
-        for (var i = 1; i < nums2.Length; i++)
-        {
-            tNums2.Add(nums2[i - 1] - nums2[i]);
-        }
 
-        List<int> tNums1 = new List<int>();
-        for (var i = 1; i < nums1.Length; i++)
-        {
-            tNums1.Add(nums1[i - 1] - nums1[i]);
-        }
 
-        int j = 0;
-        List<int> Temp = new List<int>();
-        for (var i = 0; i < tNums2.Count; i++)
+        int min = Int32.MaxValue;
+        for (var i = 0; i < 3; i++)
         {
-            if (tNums1[j] == tNums2[i])
+            int diff = nums2[0] - nums1[i];
+            if (Check(nums1, nums2, diff))
             {
-                j++;
-                continue;
-            }
-            else
-            {
-                Temp.Add(tNums1[j]);
-                j += 2;
+                min = Math.Min(min, diff);
             }
         }
+        return min;
+    }
 
-        if (Temp.Count == 1)
+    public static bool Check(int[] nums1, int[] nums2, int diff)
+    {
+        int i = 0;
+        foreach (var num in nums2)
         {
-            return nums2[1] - nums1[0];
+            while (i < nums1.Length && nums1[i]+diff !=num )
+            {
+                i++;
+            }
+
+            if (i >= nums1.Length)
+            {
+                return false;
+            }
+
+            i++;
         }
 
-        if (Temp.Count == 0) ;
-
-        return 0;
+        return true;
     }
 
     public long MinEnd(int n, int x)
@@ -71,4 +68,11 @@ public class Week395
     {
         return a & b;
     }
+
+    // public static void Main()
+    // {
+    //     int[] nums1 = new[] { 4, 6, 3, 1, 4, 2, 10, 9, 5 };
+    //     int[] nums2 = new[] { 5,10,3,2,6,1,9};
+    //     Console.WriteLine(MinimumAddedInteger(nums1,nums2));
+    // }
 }

@@ -4,36 +4,43 @@ namespace LeetCode.Tools;
 
 public class Sort
 {
-    public void QuickSort(int[] arr, int left, int right)
+    public static void QuickSort(int[] arr, int left, int right)
     {
         if (left >= right) return;
-        var ram = new Random();
-        int t = ram.Next(left, right);
-
-        (arr[left], arr[t]) = (arr[t], arr[left]);
+       var ram = new Random();
+       int t = ram.Next(left, right);
+       (arr[left], arr[t]) = (arr[t], arr[left]);
 
         int temp = arr[left];
         int l = left;
         int r = right;
         while (l < r)
-        {
+        {    
+            //先右--再左++因为刚交换完大小，左侧才是小的值，所以如果颠倒排序就出问题了
+            // eg:交换完后 temp=6 arr[l]=5,arr[r]=7，这时候l++会导致换错 应是r--
             while (l < r && arr[r] >= temp)
             {
                 r--;
             }
-
             while (l < r && arr[l] <= temp)
             {
                 l++;
             }
-
-
+            
             if (l > r) break;
             (arr[l], arr[r]) = (arr[r], arr[l]);
         }
 
+
         //l==r
         (arr[left], arr[l]) = (arr[l], arr[left]);
+        string test = "";
+        for (var i = 0; i < arr.Length; i++)
+        {
+            test += arr[i];
+
+        }
+        Console.WriteLine($"left={left},right={right},test={test}");
         QuickSort(arr, left, l - 1);
         QuickSort(arr, r + 1, right);
     }
@@ -94,13 +101,13 @@ public class Sort
         {
             //先执行右侧因为左侧left的数据已经存在temp内了，可以将右侧小于temp的值丢到左侧判断
 
-            //从右找第一个大于temp的值
+            //从右找第一个小于temp的值
             while (left < right && nums[right] >= temp)
             {
                 right--;
             }
 
-            //从左找第一个小于temp的值
+            //从左找第一个大于temp的值
             while (left < right && nums[left] <= temp)
             {
                 left++;
@@ -240,13 +247,9 @@ public class Sort
         }
     }
 
-    // static void Main()
-    // {
-    //     int[] nums = new[] { 5, 1, 1, 2, 0, 0 };
-    //     HeapSort(nums);
-    //     for (var i = 0; i < nums.Length; i++)
-    //     {
-    //         Console.Write($"nums[i]{nums[i]} ");
-    //     }
-    // }
+     // static void Main()
+     // {
+     //     int[] nums = new[] { 5,1,1,2,0,0 };
+     //     QuickSort(nums,0,5);
+     // }
 }
