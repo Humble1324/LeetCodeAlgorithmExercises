@@ -87,6 +87,75 @@ public class Y202408
 
         return ans;
     }
+
+    public class MagicDictionary
+    {
+        public HashSet<string> magicHash;
+
+        public MagicDictionary()
+        {
+            magicHash = new HashSet<string>();
+        }
+
+        public void BuildDict(string[] dictionary)
+        {
+            foreach (var s in dictionary)
+            {
+                magicHash.Add(s);
+            }
+        }
+
+        public bool Search(string searchWord)
+        {
+
+
+            var lens = searchWord.Length;
+            foreach (var s in magicHash)
+            {
+                if (s.Length != lens)
+                {
+                    continue;
+                }
+
+                int temp = 0;
+                for (int index = 0; index < lens; )
+                {
+                    
+                    while (index < lens && s[index] == searchWord[index])
+                    {
+                        index++;
+                    }
+
+
+                    if (index < lens && s[index] != searchWord[index])
+                    {
+                        temp++;
+                        index++;
+
+                    }
+
+                    if (index == lens  && temp == 1)
+                    {
+                        return true;
+                    }
+
+                    if (index >= lens || temp != 1)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return false;
+        }
+    }
+
+    /**
+     * Your MagicDictionary object will be instantiated and called as such:
+     * MagicDictionary obj = new MagicDictionary();
+     * obj.BuildDict(dictionary);
+     * bool param_2 = obj.Search(searchWord);
+     */
 //
 // public static bool IsLegal(int x, int y, int val)
 // {
@@ -97,9 +166,12 @@ public class Y202408
 //
 //     return x < n && y < m && x >= 0 && y >= 0 && val == 1;
 // }
-
-    // public static void Main()
-    // {
-    //     NumberOfRightTriangles(new[] { new[] { 1, 0, 1 }, new[] { 1, 0, 0 }, new[] { 1, 0, 0 } });
-    // }
+    public static void Main()
+    {
+        MagicDictionary obj = new MagicDictionary();
+        string[] dictionary = new string[] { "hello", "leetcode" };
+        obj.BuildDict(dictionary);
+        bool param_2 = obj.Search("hhllo");
+        Console.WriteLine(param_2.ToString());
+    }
 }
