@@ -166,12 +166,12 @@ public class Y202408
 //
 //     return x < n && y < m && x >= 0 && y >= 0 && val == 1;
 // }
-    public static void Main()
-    {
-        MagicDictionary obj = new MagicDictionary();
-        string[] dictionary = new string[] { "hello", "leetcode" };
-        obj.BuildDict(dictionary);
-        bool param_2 = obj.Search("hhllo");
-        Console.WriteLine(param_2.ToString());
-    }
+    // public static void Main()
+    // {
+    //     MagicDictionary obj = new MagicDictionary();
+    //     string[] dictionary = new string[] { "hello", "leetcode" };
+    //     obj.BuildDict(dictionary);
+    //     bool param_2 = obj.Search("hhllo");
+    //     Console.WriteLine(param_2.ToString());
+    // }
 }
