@@ -107,8 +107,6 @@ public class Y202408
 
         public bool Search(string searchWord)
         {
-
-
             var lens = searchWord.Length;
             foreach (var s in magicHash)
             {
@@ -118,9 +116,8 @@ public class Y202408
                 }
 
                 int temp = 0;
-                for (int index = 0; index < lens; )
+                for (int index = 0; index < lens;)
                 {
-                    
                     while (index < lens && s[index] == searchWord[index])
                     {
                         index++;
@@ -131,10 +128,9 @@ public class Y202408
                     {
                         temp++;
                         index++;
-
                     }
 
-                    if (index == lens  && temp == 1)
+                    if (index == lens && temp == 1)
                     {
                         return true;
                     }
@@ -148,14 +144,81 @@ public class Y202408
 
             return false;
         }
+
+        public bool[] IsArraySpecial(int[] nums, int[][] queries)
+        {
+            List<bool> ans = new List<bool>();
+            List<bool> numsBool = new();
+            if (nums.Length == 1)
+            {
+                numsBool.Add(true);
+            }
+
+            else
+            {
+                for (var i = 1; i < nums.Length; i++)
+                {
+                    numsBool.Add(nums[i - 1] % 2 != nums[i] % 2);
+                }
+            }
+
+            foreach (var query in queries)
+            {
+                int left = query[0];
+                int right = query[1];
+                if (left == right)
+                {
+                    ans.Add(true);
+                }
+                else
+                {
+                    while (left < right - 1 && numsBool[left])
+                    {
+                        left++;
+                    }
+
+                    ans.Add(numsBool[left]);
+                }
+            }
+
+            return ans.ToArray();
+        }
     }
 
-    /**
-     * Your MagicDictionary object will be instantiated and called as such:
-     * MagicDictionary obj = new MagicDictionary();
-     * obj.BuildDict(dictionary);
-     * bool param_2 = obj.Search(searchWord);
-     */
+    public static bool CheckRecord(string s)
+    {
+        int absentCount = 0;
+        for (var i = 0; i < s.Length; i++)
+        {
+            if (s[i] == 'A')
+            {
+                absentCount++;
+                if (absentCount > 1)
+                {
+                    return false;
+                }
+            }
+
+            int lateCount = 0;
+            if (i < s.Length && s[i] == 'L')
+            {
+                while (i < s.Length && s[i] == 'L')
+                {
+                    lateCount++;
+                    i++;
+                    if (lateCount >= 3)
+                    {
+                        return false;
+                    }
+                }
+
+                i--;
+            }
+        }
+
+        return true;
+    }
+
 //
 // public static bool IsLegal(int x, int y, int val)
 // {
@@ -168,10 +231,98 @@ public class Y202408
 // }
     // public static void Main()
     // {
-    //     MagicDictionary obj = new MagicDictionary();
-    //     string[] dictionary = new string[] { "hello", "leetcode" };
-    //     obj.BuildDict(dictionary);
-    //     bool param_2 = obj.Search("hhllo");
-    //     Console.WriteLine(param_2.ToString());
+    //     Console.WriteLine(CheckRecord("ALLAPPL"));
     // }
+
+    public int GetImportance(IList<Employee> employees, int id)
+    {
+        int count = 0;
+        Stack<Employee> stack = new Stack<Employee>();
+        stack.Push(GetEmployeeID(employees, id));
+
+        while (stack.Count > 0)
+        {
+            var temp = stack.Pop();
+            var subordinatesList = temp.subordinates;
+            foreach (var i in subordinatesList)
+            {
+                stack.Push(GetEmployeeID(employees, i));
+            }
+
+            count += temp.importance;
+        }
+
+        return count;
+    }
+
+    public Employee GetEmployeeID(IList<Employee> employees, int id)
+    {
+        foreach (var employee in employees)
+        {
+            if (employee.id == id)
+            {
+                return employee;
+            }
+        }
+
+        return null;
+    }
+
+    public bool SatisfiesConditions(int[][] grid)
+    {
+        int x = grid[0].Length;
+        int y = grid.Length;
+
+        for (var i = 0; i < y; i++)
+        {
+            for (var j = 0; j < x; j++)
+            {
+                if (i + 1 < y)
+                {
+                    if (grid[i][j] != grid[i + 1][j])
+                    {
+                        return false;
+                    }
+                }
+
+                if (j + 1 < x)
+                {
+                    if (grid[i][j] == grid[i][j + 1])
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public static long SumDigitDifferences(int[] nums)
+    {
+        long ans = 0;
+        int length = nums[0].ToString().Length;
+        int[,] cnt = new int[length, 10];
+        for (int i = 0; i < nums.Length; i++)
+        {
+            int x = nums[i];
+            for (int j = 0; x > 0; x /= 10, j++)
+            {
+                ans += i - cnt[j, x % 10]++;
+            }
+        }
+        return ans;
+    }
+
+    // public static void Main()
+    // {
+    //     Console.WriteLine(SumDigitDifferences(new []{37,71,56,36,96,35,37,65,50,55}));
+    // }
+}
+
+public class Employee
+{
+    public int id;
+    public int importance;
+    public IList<int> subordinates;
 }
