@@ -102,10 +102,10 @@ public class Y202409
     //     ans.Remove(left, 1);
     //     return ClearDigits(ans.ToString());
     // }
-    public  string ClearDigits(string s)
+    public string ClearDigits(string s)
     {
         StringBuilder ans = new StringBuilder();
-  
+
         int index = 0;
         foreach (var c in s)
         {
@@ -118,11 +118,35 @@ public class Y202409
                 ans.Append(c);
             }
         }
-        
+
         return ans.ToString();
     }
-     // public static void Main()
-     // {
-     //     Console.Write(ClearDigits("abc"));
-     // }
+
+    public DailyCode.ListNode MergeNodes(DailyCode.ListNode head)
+    {
+        var slowNode = head;
+        var fastNode = head.next;
+        while (fastNode != null)
+        {
+            int count = 0;
+            while (fastNode.val != 0)
+            {
+                count += fastNode.val;
+                fastNode = fastNode.next;
+            }
+
+            fastNode = fastNode.next;
+            slowNode.next.val = count;
+            slowNode = slowNode.next;
+        }
+
+        slowNode.next = null;
+        
+        //太久没做类似题目了 忘记可以跳过开头QAQ
+        return head.next;
+    }
+    // public static void Main()
+    // {
+    //     Console.Write(MergeNodes("abc"));
+    // }
 }
