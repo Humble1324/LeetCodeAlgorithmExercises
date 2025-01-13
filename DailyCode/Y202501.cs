@@ -42,7 +42,8 @@ public class Y202501
                 pow10 *= 10;
             }
             return ans;
-        }
+        
+            //test
     //
     // public static void Main(string[] args)
     // {
