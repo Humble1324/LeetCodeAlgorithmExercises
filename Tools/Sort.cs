@@ -7,9 +7,10 @@ public class Sort
     public static void QuickSort(int[] arr, int left, int right)
     {
         if (left >= right) return;
+        
        var ram = new Random();
        int t = ram.Next(left, right);
-       (arr[left], arr[t]) = (arr[t], arr[left]);
+       (arr[left], arr[t]) = (arr[t], arr[left]); 
 
         int temp = arr[left];
         int l = left;
@@ -21,7 +22,7 @@ public class Sort
             while (l < r && arr[r] >= temp)
             {
                 r--;
-            }
+            } 
             while (l < r && arr[l] <= temp)
             {
                 l++;

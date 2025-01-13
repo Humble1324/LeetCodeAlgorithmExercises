@@ -272,8 +272,115 @@ public class Y202410
     //     return ans;
     // }
 
-    public static void Main(string[] args)
+    public int[] FindRedundantConnection(int[][] edges)
     {
-        FindWinningPlayer(new int[] { 7, 11 }, 2);
+        int[] ans = new int[] { };
+        //并查集,给每个数组元素加一个起始组序号,默认每人分开
+        //也可以默认-1 方便记录有多少分组
+        //再根据连通图顺序将连通点合入一个组
+        //需要查找某个元素当前在哪个组(Find(x))
+        //在查找的过程顺便更新组序号
+        //统一合到大的(可能是组和组之间,所以需要遍历)(Union(x,y))
+        int lens = edges.Length;
+        var uf = new UnionFind(lens + 1);
+        for (int i = 0; i < lens; i++)
+        {
+            int[] e = edges[i];
+            int x = e[0];
+            int y = e[1];
+            if (uf.Find(x) != uf.Find(y))
+            {
+                uf.Union(x, y);
+            }
+            else
+            {
+                return e;
+            }
+        }
+
+        return null;
+    }
+
+    public string GetSmallestString(string s)
+    {
+        StringBuilder sb = new StringBuilder(s);
+        int lens = s.Length, index = 0;
+        while (index < lens - 1)
+        {
+            if (s[index] > s[index + 1] && (s[index] - '0') % 2 == (s[index + 1] - '0') % 2)
+            {
+                (sb[index], sb[index + 1]) = (sb[index + 1], sb[index]);
+                return sb.ToString();
+            }
+
+            index++;
+        }
+
+        return sb.ToString();
+    }
+
+    // public static void Main(string[] args)
+    // {
+    //     FindWinningPlayer(new int[] { 7, 11 }, 2);
+    // }
+}
+
+public class UnionFind
+{
+    public int[] parent;
+    public int[] rank;
+
+    public UnionFind(int n)
+    {
+        parent = new int[n];
+        rank = new int[n];
+        Array.Fill(parent, -1);
+        Array.Fill(rank, 1);
+    }
+
+    public void Union(int x, int y)
+    {
+        //按秩合并
+        //查询两者的属于哪个交集
+        int p1 = Find(x);
+        int p2 = Find(y);
+
+        //已经是同一个交集
+        if (p1 == p2)
+        {
+            return;
+        }
+
+        //谁的组别大,就把小的归到大的内
+        //rank[p1]是新的交集,把老的塞进去
+        if (rank[p1] > rank[p2])
+        {
+            parent[p2] = p1;
+        }
+
+        if (rank[p1] < rank[p2])
+        {
+            parent[p1] = p2;
+        }
+        else
+        {
+            parent[p2] = p1;
+            rank[p1] += 1;
+        }
+    }
+
+    public int Find(int x)
+    {
+        if (parent[x] == -1)
+        {
+            parent[x] = x;
+        }
+
+        if (parent[x] != x)
+        {
+            parent[x] = Find(parent[x]);
+        }
+
+        return parent[x];
     }
 }
