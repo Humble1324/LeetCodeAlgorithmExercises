@@ -21,7 +21,7 @@ public class Y202501
 
             if (tCount == 3)
             {
-                max =int.Parse(max)>int.Parse(num.Substring(index, 3))?max:num.Substring(index, 3);
+                max = int.Parse(max) > int.Parse(num.Substring(index, 3)) ? max : num.Substring(index, 3);
             }
 
             index = temp;
@@ -29,24 +29,28 @@ public class Y202501
 
         return max == int.MinValue.ToString() ? "" : max.ToString();
     }
-        public int GenerateKey(int num1, int num2, int num3)
+
+    public int GenerateKey(int num1, int num2, int num3)
+    {
+        int ans = 0;
+        int pow10 = 1;
+        while (num1 > 0 && num2 > 0 && num3 > 0)
         {
-            int ans = 0;
-            int pow10 = 1;
-            while (num1 > 0 && num2 > 0 && num3 > 0)
-            {
-                ans+= Math.Min(num1%10,Math.Min(num2%10,num3%10))*pow10;
-                num1 /= 10;
-                num2 /= 10;
-                num3 /= 10;
-                pow10 *= 10;
-            }
-            return ans;
-        
-            //test
-    //
+            ans += Math.Min(num1 % 10, Math.Min(num2 % 10, num3 % 10)) * pow10;
+            num1 /= 10;
+            num2 /= 10;
+            num3 /= 10;
+            pow10 *= 10;
+        }
+
+        return ans;
+
+ 
+    }
+    //test
+    
     // public static void Main(string[] args)
     // {
-    //     Console.WriteLine(LargestGoodInteger("6777133339"));
+    //     Console.WriteLine(LargestGoodInteger("1233345678"));
     // }
 }
