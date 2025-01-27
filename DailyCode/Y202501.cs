@@ -44,13 +44,43 @@ public class Y202501
         }
 
         return ans;
-
- 
     }
+
+    public int Jump(int[] nums)
+    {
+        int jumps = 0;
+        int fastest = int.MinValue; //当前最远跳跃位置
+        int lens = nums.Length;
+        if (lens == 1)
+        {
+            return jumps;
+        }
+
+        int currentEnd = 0; //当前跳跃的结束位置
+
+        for (var i = 0; i < lens - 1; i++)
+        {
+            fastest = Math.Max(fastest, nums[i] + i);
+            if (i == currentEnd)
+            {
+                jumps++;
+
+                currentEnd = fastest; // 如果已经可以到达最后一个位置，提前返回
+                if (currentEnd >= lens - 1)
+                {
+                    break;
+                }
+            }
+
+           
+        }
+        return jumps;
+    }
+
     //test
-    
-    // public static void Main(string[] args)
-    // {
-    //     Console.WriteLine(LargestGoodInteger("1233345678"));
-    // }
-}
+
+        // public static void Main(string[] args)
+        // {
+        //     Console.WriteLine(LargestGoodInteger("1233345678"));
+        // }
+    }
