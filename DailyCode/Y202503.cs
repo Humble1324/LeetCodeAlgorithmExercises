@@ -39,7 +39,20 @@ public class Y202503
         // 返回最后一个房子偷或不偷的最大值
         return Math.Max(dp[lens - 1, 0], dp[lens - 1, 1]);
     }
-
+    public int DivisorSubstrings(int num, int k)
+    {
+        int ans = 0;
+        string s = num.ToString();
+        for (var i = 0; i <= s.Length - k;i++)
+        {
+            int t = int.Parse(s.Substring(i, k));
+            if (t != 0 && num % t == 0)
+            {
+                ans++;
+            }
+        }
+        return ans;
+    }
     public static int SumOfBeauties(int[] nums)
     {
         //如果前面所有的都小于他,后面所有都大于他 返回2
