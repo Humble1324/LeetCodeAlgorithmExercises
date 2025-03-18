@@ -90,4 +90,40 @@ public class Y202503
 
         return ans;
     }
+    public int DiagonalPrime(int[][] nums)
+    {
+        int maxAns = 0;
+        HashSet<int> set = new HashSet<int>();
+        for (int i = 0; i < nums.Length; i++)
+        {
+            for (int j = 0; j < nums[i].Length; j++)
+            {
+                if (i == j || i + j == nums.Length - 1)
+                {
+                    if (set.Contains(nums[i][j]))
+                    {
+                        continue;
+                    }
+                    if (IsPrime(nums[i][j]))
+                    {
+                        set.Add(nums[i][j]);
+                        maxAns = Math.Max(maxAns, nums[i][j]);
+                    }
+                }
+            }
+        }
+        return maxAns;
+    }
+
+    bool IsPrime(int number)
+    {
+        for (int i = 2; i*i <= number; i ++)
+        {
+            if (number % i == 0)
+            {
+                return false;
+            }
+        }
+        return number>=2;
+    }
 }
