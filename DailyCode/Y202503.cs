@@ -39,11 +39,12 @@ public class Y202503
         // 返回最后一个房子偷或不偷的最大值
         return Math.Max(dp[lens - 1, 0], dp[lens - 1, 1]);
     }
+
     public int DivisorSubstrings(int num, int k)
     {
         int ans = 0;
         string s = num.ToString();
-        for (var i = 0; i <= s.Length - k;i++)
+        for (var i = 0; i <= s.Length - k; i++)
         {
             int t = int.Parse(s.Substring(i, k));
             if (t != 0 && num % t == 0)
@@ -51,8 +52,10 @@ public class Y202503
                 ans++;
             }
         }
+
         return ans;
     }
+
     public static int SumOfBeauties(int[] nums)
     {
         //如果前面所有的都小于他,后面所有都大于他 返回2
@@ -65,24 +68,23 @@ public class Y202503
         rightMin[lens - 1] = nums[lens - 1];
 
         int ans = 0;
-        for (var i = 1; i < lens ; i++)
+        for (var i = 1; i < lens; i++)
         {
             leftMax[i] = Math.Max(leftMax[i - 1], nums[i]);
         }
 
         for (var i = lens - 2; i >= 0; i--)
         {
-            
             rightMin[i] = Math.Min(rightMin[i + 1], nums[i]);
         }
 
         for (var i = 1; i < lens - 1; i++)
         {
-            if (nums[i] > leftMax[i-1] && nums[i] < rightMin[i+1])
+            if (nums[i] > leftMax[i - 1] && nums[i] < rightMin[i + 1])
             {
                 ans += 2;
             }
-            else if (nums[i] > nums[i - 1] && nums[i]< nums[i + 1])
+            else if (nums[i] > nums[i - 1] && nums[i] < nums[i + 1])
             {
                 ans++;
             }
@@ -90,6 +92,7 @@ public class Y202503
 
         return ans;
     }
+
     public int DiagonalPrime(int[][] nums)
     {
         int maxAns = 0;
@@ -104,6 +107,7 @@ public class Y202503
                     {
                         continue;
                     }
+
                     if (IsPrime(nums[i][j]))
                     {
                         set.Add(nums[i][j]);
@@ -112,18 +116,81 @@ public class Y202503
                 }
             }
         }
+
         return maxAns;
     }
 
     bool IsPrime(int number)
     {
-        for (int i = 2; i*i <= number; i ++)
+        for (int i = 2; i * i <= number; i++)
         {
             if (number % i == 0)
             {
                 return false;
             }
         }
-        return number>=2;
+
+        return number >= 2;
+    }
+
+    public static IList<IList<int>> FindMatrix(int[] nums)
+    {
+        List<IList<int>> ans = new List<IList<int>>();
+        List<int> listNums = new List<int>(nums);
+        HashSet<int> set = new HashSet<int>();
+        int cnt = 0;
+        while (listNums.Count > 0)
+        {
+            ans.Add(new List<int>());
+            int index = 0;
+            set.Clear();
+            while (index < listNums.Count)
+            {
+                if (set.Add(listNums[index]))
+                {
+                    ans[cnt].Add(listNums[index]);
+                    listNums.RemoveAt(index);
+                }
+                else
+                {
+                    index++;
+                }
+            }
+
+            cnt++;
+        }
+
+        return ans;
+    }
+
+    public IList<IList<int>> FindMatrixII(int[] nums)
+    {
+        Dictionary<int,int> numCnt = new Dictionary<int,int>();
+        foreach (var num in nums)
+        {
+            {
+                if (!numCnt.TryAdd(num, 1))
+                {
+                    numCnt[num]++;
+                }
+            }
+        }
+        List<IList<int>> ans = new List<IList<int>>();
+        while (numCnt.Count > 0)
+        {
+            var templist = new List<int>();
+            ans.Add(templist);
+            foreach (var num in numCnt.Keys)
+            {
+                templist.Add(num);
+                numCnt[num]--;
+                if (numCnt[num] == 0)
+                {
+                    numCnt.Remove(num);
+                }
+            }
+        }
+        
+        return ans;
     }
 }
