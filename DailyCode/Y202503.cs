@@ -193,4 +193,30 @@ public class Y202503
         
         return ans;
     }
+    public int CountPrefixes(string[] words, string s)
+    {
+        int cnt = 0;
+        foreach (var word in words)
+        {
+            for (var i = 0; i < word.Length; i++)
+            {
+                if (i > s.Length-1)
+                {
+                    break;
+                }
+                if (word[i] != s[i])
+                {
+                    break;
+                }
+                if (i == s.Length||i==word.Length-1)
+                {
+                    cnt++;
+                    break;
+                }
+
+            }
+        }
+
+        return cnt;
+    }
 }
